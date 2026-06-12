@@ -1,0 +1,81 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "model.board" {
+  class Board
+  class Sector
+  class Vertex
+  class Edge
+  interface BoardFactory
+  class RandomBoardFactory
+  record SectorPosition
+  record VertexPosition
+  record EdgePosition
+}
+
+package "model.structure" {
+  abstract class CompanyStructure {
+    +produce(): int
+    +getVictoryPoints(): int
+  }
+  class MVP
+  class Unicorn
+  class Partnership
+  interface StructureLocation
+  record VertexLocation
+  record EdgeLocation
+}
+
+package "model.player" { class Player }
+package "model.market" { class Market }
+package "model.game" {
+  class Game
+  interface GameEngine
+  class StandardGameEngine
+}
+package "pattern.command" {
+  interface GameCommand
+  class CommandManager
+}
+package "pattern.memento" {
+  record GameMemento
+  class GameSnapshotCodec
+}
+package "persistence" {
+  interface GameSaveService
+  class JavaSerializationGameSaveService
+}
+package "controller" { class GameController }
+
+Board "1" *-- "*" Sector
+Board "1" *-- "*" Vertex
+Board "1" *-- "*" Edge
+RandomBoardFactory ..|> BoardFactory
+BoardFactory ..> Board
+
+CompanyStructure <|-- MVP
+CompanyStructure <|-- Unicorn
+CompanyStructure <|-- Partnership
+StructureLocation <|.. VertexLocation
+StructureLocation <|.. EdgeLocation
+MVP --> VertexLocation
+Unicorn --> VertexLocation
+Partnership --> EdgeLocation
+
+Player "1" o-- "*" CompanyStructure
+Game "1" *-- "1" Board
+Game "1" *-- "1" Market
+Game "1" o-- "2..4" Player
+StandardGameEngine ..|> GameEngine
+StandardGameEngine --> Game
+GameCommand ..> GameEngine
+CommandManager --> GameCommand
+CommandManager --> GameSnapshotCodec
+GameSnapshotCodec --> GameMemento
+JavaSerializationGameSaveService ..|> GameSaveService
+GameSaveService ..> Game
+GameController --> GameEngine
+GameController --> CommandManager
+GameController --> GameSaveService
+@enduml

@@ -1,0 +1,18 @@
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #111827;
+}
+.title-label {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+.subtitle-label {
+    -fx-text-fill: #cbd5e1;
+    -fx-font-size: 15px;
+}
+.phase-card {
+    -fx-background-color: #1f2937;
+    -fx-background-radius: 14px;
+    -fx-padding: 24px;
+}

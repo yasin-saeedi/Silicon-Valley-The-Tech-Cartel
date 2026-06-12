@@ -1,0 +1,42 @@
+classDiagram
+    class Board
+    class Sector
+    class Vertex
+    class Edge
+    class BoardFactory { <<interface>> }
+    class RandomBoardFactory
+    class CompanyStructure { <<abstract>> +produce() int +getVictoryPoints() int }
+    class MVP
+    class Unicorn
+    class Partnership
+    class Player
+    class Market
+    class Game
+    class GameEngine { <<interface>> }
+    class StandardGameEngine
+    class GameCommand { <<interface>> }
+    class CommandManager
+    class GameMemento
+    class GameSaveService { <<interface>> }
+    class JavaSerializationGameSaveService
+    class GameController
+
+    Board *-- Sector
+    Board *-- Vertex
+    Board *-- Edge
+    BoardFactory <|.. RandomBoardFactory
+    CompanyStructure <|-- MVP
+    CompanyStructure <|-- Unicorn
+    CompanyStructure <|-- Partnership
+    Player o-- CompanyStructure
+    Game *-- Board
+    Game *-- Market
+    Game o-- Player
+    GameEngine <|.. StandardGameEngine
+    StandardGameEngine --> Game
+    CommandManager --> GameCommand
+    CommandManager --> GameMemento
+    GameSaveService <|.. JavaSerializationGameSaveService
+    GameController --> GameEngine
+    GameController --> CommandManager
+    GameController --> GameSaveService
