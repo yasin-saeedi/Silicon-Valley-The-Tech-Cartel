@@ -1,18 +1,144 @@
 .root {
-    -fx-font-family: "Arial";
-    -fx-background-color: #111827;
+    -fx-font-family: "Cambria Math", "Cambria", serif;
+    -fx-background-color: linear-gradient(to bottom, #0b1220, #111827 45%, #0f172a);
 }
-.title-label {
-    -fx-text-fill: #f9fafb;
-    -fx-font-size: 28px;
+
+/* ── Main board shell ── */
+.board-view {
+    -fx-background-color: transparent;
+}
+
+.board-title {
+    -fx-text-fill: #f8fafc;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
+    -fx-letter-spacing: 2px;
 }
-.subtitle-label {
+
+.board-subtitle {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 4px;
+}
+
+.board-canvas {
+    -fx-background-color: #020617;
+    -fx-background-radius: 10px;
+    -fx-border-color: linear-gradient(to bottom right, #1d4ed8, #0ea5e9);
+    -fx-border-width: 3;
+    -fx-border-radius: 10px;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(14, 165, 233, 0.35), 18, 0.35, 0, 0);
+}
+
+/* ── Sector tiles ── */
+.sector-tile {
+    -fx-background-radius: 0;
+    -fx-border-color: #020617;
+    -fx-border-width: 1;
+    -fx-padding: 6 8 6 8;
+    -fx-alignment: center;
+}
+
+.sector-name {
+    -fx-text-fill: #f8fafc;
+    -fx-font-size: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 2, 0.5, 1, 1);
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.sector-number {
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.9), 3, 0.6, 1, 1);
+    -fx-font-size: 25px;
+}
+
+.sector-icon {
+    -fx-fill: rgba(255, 255, 255, 0.85);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 2, 0.5, 1, 1);
+    -fx-font-size: 18px;
+}
+
+.sector-ai {
+    -fx-background-color: linear-gradient(to bottom, #2563eb, #1d4ed8);
+}
+
+.sector-fintech {
+    -fx-background-color: linear-gradient(to bottom, #dd9907, #ae7307);
+}
+
+.sector-cloud {
+    -fx-background-color: linear-gradient(to bottom, #9333ea, #7e22ce);
+}
+
+.sector-data {
+    -fx-background-color: linear-gradient(to bottom, #06b3f4, #0ca9e3);
+}
+
+.sector-ip {
+    -fx-background-color: linear-gradient(to bottom, #16a34a, #15803d);
+}
+
+.sector-regulatory {
+    -fx-background-color: linear-gradient(to bottom, #475569, #334155);
+}
+
+.sector-audited {
+    -fx-effect: innershadow(gaussian, rgba(244, 44, 44, 0.75), 16, 0.4, 0, 0);
+}
+
+.sector-auditor-here {
+    -fx-border-color: #fbbf24;
+    -fx-border-width: 2.5;
+}
+
+/* ── Edges & vertices ── */
+.board-edge {
+    -fx-fill: #0f172a;
+    -fx-stroke: #334155;
+    -fx-stroke-width: 0.5;
+}
+
+.board-edge-occupied {
+    -fx-stroke: #f8fafc;
+    -fx-stroke-width: 1.5;
+}
+
+.board-vertex {
+    -fx-fill: #d1d5db;
+    -fx-stroke: #64748b;
+    -fx-stroke-width: 1.5;
+}
+
+.board-vertex-occupied {
+    -fx-stroke: #f8fafc;
+    -fx-stroke-width: 2;
+}
+
+/* ── Legend ── */
+.board-legend {
+    -fx-padding: 8 0 0 0;
+    -fx-pref-width: 560;
+    -fx-max-width: 560;
+}
+
+.legend-swatch {
+    -fx-min-width: 34;
+    -fx-min-height: 34;
+    -fx-max-width: 34;
+    -fx-max-height: 34;
+    -fx-alignment: center;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.legend-label {
     -fx-text-fill: #cbd5e1;
-    -fx-font-size: 15px;
-}
-.phase-card {
-    -fx-background-color: #1f2937;
-    -fx-background-radius: 14px;
-    -fx-padding: 24px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
 }
