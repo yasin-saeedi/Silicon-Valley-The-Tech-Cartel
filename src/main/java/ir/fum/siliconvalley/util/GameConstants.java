@@ -17,6 +17,11 @@ public final class GameConstants {
     public static final int MAX_MARKET_PRICE = 6;
     public static final int MARKET_PRICE_DECAY_ROUNDS = 3;
 
+    public static final double CELL_WIDTH = 118;
+    public static final double CELL_HEIGHT = 88;
+    public static final double EDGE_THICKNESS = 5;
+    public static final double VERTEX_RADIUS = 6;
+
     public static final ResourceBundle MVP_COST = ResourceBundle.builder()
             .add(ResourceType.CAPITAL, 1)
             .add(ResourceType.TALENT, 1)
