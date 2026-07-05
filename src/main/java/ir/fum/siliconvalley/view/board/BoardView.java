@@ -1,6 +1,7 @@
 package ir.fum.siliconvalley.view.board;
 
 import ir.fum.siliconvalley.controller.GameController;
+import ir.fum.siliconvalley.view.MainView;
 import ir.fum.siliconvalley.model.board.Board;
 import ir.fum.siliconvalley.model.board.Edge;
 import ir.fum.siliconvalley.model.board.EdgePosition;
@@ -32,6 +33,11 @@ public final class BoardView extends VBox {
     private final GridPane sectorGrid = new GridPane();
     private final Pane overlay = new Pane();
     private final StackPane boardCanvas = new StackPane();
+    private MainView mainView;
+
+    public void setMainView(MainView mainView) {
+        this.mainView = mainView;
+    }
 
     public BoardView(GameController controller) {
         this.controller = Objects.requireNonNull(controller, "controller");
@@ -100,6 +106,12 @@ public final class BoardView extends VBox {
         tile.setPrefSize(GameConstants.CELL_WIDTH, GameConstants.CELL_HEIGHT);
         tile.setMinSize(GameConstants.CELL_WIDTH, GameConstants.CELL_HEIGHT);
         tile.setMaxSize(GameConstants.CELL_WIDTH, GameConstants.CELL_HEIGHT);
+        tile.setOnMouseClicked(e -> {
+            if (mainView != null) {
+                mainView.handleSectorClick(sector.getPosition());
+            }
+        });
+        tile.setCursor(javafx.scene.Cursor.HAND);
 
         // Audited Sector
         if (sector.isAudited()) {
@@ -150,6 +162,13 @@ public final class BoardView extends VBox {
             node.setFill(toFxColor(player.getColor()));
         });
 
+        node.setOnMouseClicked(e -> {
+            if (mainView != null) {
+                mainView.handleEdgeClick(edge.getPosition());
+            }
+        });
+        node.setCursor(javafx.scene.Cursor.HAND);
+
         return node;
     }
 
@@ -167,8 +186,9 @@ public final class BoardView extends VBox {
 
         // build company by click
         node.setOnMouseClicked(e -> {
-            /*controller.bulidMVP(vertex.getPosition());
-            render();*/
+            if (mainView != null) {
+                mainView.handleVertexClick(vertex.getPosition());
+            }
         });
 
         node.setCursor(javafx.scene.Cursor.HAND);

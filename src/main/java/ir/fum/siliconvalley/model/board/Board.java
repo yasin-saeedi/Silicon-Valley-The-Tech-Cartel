@@ -184,6 +184,73 @@ public final class Board implements Serializable {
         edge.occupy(structureId);
     }
 
+    public List<Vertex> getAdjacentVerticesToVertex(VertexPosition position) {
+        getVertex(position);
+        return getIncidentEdges(position).stream()
+                .map(edge -> {
+                    VertexPosition other = edge.getPosition().first().equals(position)
+                            ? edge.getPosition().second()
+                            : edge.getPosition().first();
+                    return getVertex(other);
+                })
+                .toList();
+    }
+
+    public boolean isDistanceOfTwoValid(VertexPosition position) {
+        Vertex target = getVertex(position);
+        if (target.getCompanyStructureId().isPresent()) {
+            return false;
+        }
+        for (Vertex adj : getAdjacentVerticesToVertex(position)) {
+            if (adj.getCompanyStructureId().isPresent()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isEdgeConnectedToPlayerNetwork(EdgePosition edgePos, java.util.Set<UUID> playerStructureIds) {
+        VertexPosition first = edgePos.first();
+        VertexPosition second = edgePos.second();
+
+        if (isVertexOccupiedByPlayer(first, playerStructureIds) || isVertexOccupiedByPlayer(second, playerStructureIds)) {
+            return true;
+        }
+
+        for (Edge edge : getIncidentEdges(first)) {
+            if (!edge.getPosition().equals(edgePos) && isEdgeOccupiedByPlayer(edge, playerStructureIds)) {
+                return true;
+            }
+        }
+        for (Edge edge : getIncidentEdges(second)) {
+            if (!edge.getPosition().equals(edgePos) && isEdgeOccupiedByPlayer(edge, playerStructureIds)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isVertexConnectedToPlayerNetwork(VertexPosition vertexPos, java.util.Set<UUID> playerStructureIds) {
+        for (Edge edge : getIncidentEdges(vertexPos)) {
+            if (isEdgeOccupiedByPlayer(edge, playerStructureIds)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isVertexOccupiedByPlayer(VertexPosition pos, java.util.Set<UUID> playerStructureIds) {
+        return getVertex(pos).getCompanyStructureId()
+                .map(playerStructureIds::contains)
+                .orElse(false);
+    }
+
+    private boolean isEdgeOccupiedByPlayer(Edge edge, java.util.Set<UUID> playerStructureIds) {
+        return edge.getPartnershipId()
+                .map(playerStructureIds::contains)
+                .orElse(false);
+    }
+
     private void addSectorIfPresent(List<Sector> result, int row, int column) {
         if (row >= 0 && row < size && column >= 0 && column < size) {
             result.add(sectors[row][column]);

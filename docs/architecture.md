@@ -26,8 +26,11 @@ Included examples:
 - `RollDiceCommand`
 - `BuyFromMarketCommand`
 - `EndTurnCommand`
+- `BuildMvpCommand`, `BuildPartnershipCommand`, `UpgradeToUnicornCommand`
+- `MoveAuditorCommand`, `DiscardTaxesCommand`
+- `TradeWithPlayerCommand`
 
-Later phases should add commands for setup placement, structure construction, auditor movement, tax discard, and player-to-player trading.
+All required commands including setup placement, structure construction, auditor movement, tax discard, and player-to-player trading have been implemented.
 
 ### Memento
 

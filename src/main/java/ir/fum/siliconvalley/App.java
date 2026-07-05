@@ -44,6 +44,12 @@ public final class App extends Application {
         Board board = new RandomBoardFactory().create(GameConstants.DEFAULT_BOARD_SIZE, new Random(42));
         Player first = new Player("Ada", PlayerColor.BLUE);
         Player second = new Player("Linus", PlayerColor.RED);
+        try {
+            first.assignFounderRole(ir.fum.siliconvalley.model.enums.FounderRole.VC_FUNDED);
+            second.assignFounderRole(ir.fum.siliconvalley.model.enums.FounderRole.TECH_GURU_CTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Game game = new Game(board, new Market(), List.of(first, second));
         StandardGameEngine engine = new StandardGameEngine(game, new Random(1));
         CommandManager commandManager = new CommandManager(engine, new GameSnapshotCodec());

@@ -16,6 +16,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.UUID;
+import java.util.Set;
+import java.util.HashSet;
 
 /** Serializable aggregate root for one complete game state. */
 public final class Game implements Serializable {
@@ -32,6 +34,8 @@ public final class Game implements Serializable {
     private int fullRoundNumber = 1;
     private Integer lastDiceTotal;
     private long nextStructureSequence = 1;
+    private int setupPlacementCount = 0;
+    private final Set<UUID> playersPendingDiscard = new java.util.HashSet<>();
     private UUID longestNetworkOwnerId;
     private int longestNetworkLength;
 
@@ -99,6 +103,13 @@ public final class Game implements Serializable {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
 
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        if (currentPlayerIndex < 0 || currentPlayerIndex >= players.size()) {
+            throw new IllegalArgumentException("Player index out of bounds");
+        }
+        this.currentPlayerIndex = currentPlayerIndex;
+    }
+
     public int getFullRoundNumber() {
         return fullRoundNumber;
     }
@@ -117,6 +128,18 @@ public final class Game implements Serializable {
 
     public long nextStructureSequence() {
         return nextStructureSequence++;
+    }
+
+    public int getSetupPlacementCount() {
+        return setupPlacementCount;
+    }
+
+    public void incrementSetupPlacementCount() {
+        setupPlacementCount++;
+    }
+
+    public Set<UUID> getPlayersPendingDiscard() {
+        return playersPendingDiscard;
     }
 
     public Optional<UUID> getLongestNetworkOwnerId() {

@@ -18,8 +18,6 @@
 - PlantUML and Mermaid class diagrams
 - Model-only verification script
 
-## Intentionally postponed to Phase 2
-
 - Full initial placement snake order
 - Distance-of-two placement validation
 - Connected-partnership validation
@@ -28,8 +26,13 @@
 - Complete regulatory crisis flow: discard choice, placement restrictions, UI prompts
 - Longest-partnership award
 - Victory detection and finished-game screen
-- Player-to-player trading
+- Player-to-player trading (`TradeWithPlayerCommand` & UI dialog)
 - Full graphical board
+
+## Remaining Future Enhancements
+
+- AI Strategy candidate (`AiStrategy` interface for automated computer players)
+- Advanced network synchronization / multiplayer server mode
 
 ## Low-conflict file ownership suggestion
 

@@ -5,6 +5,7 @@ import ir.fum.siliconvalley.model.board.EdgePosition;
 import ir.fum.siliconvalley.model.board.SectorPosition;
 import ir.fum.siliconvalley.model.board.VertexPosition;
 import ir.fum.siliconvalley.model.enums.ResourceType;
+import ir.fum.siliconvalley.model.resource.ResourceBundle;
 
 import java.util.UUID;
 
@@ -28,7 +29,11 @@ public interface GameEngine {
 
     void buyFromMarket(UUID playerId, ResourceType resourceType) throws GameException;
 
+    void discardTaxes(UUID playerId, ResourceBundle resources) throws GameException;
+
     void moveAuditor(UUID playerId, SectorPosition sectorPosition) throws GameException;
+
+    void tradeWithPlayer(UUID initiatorId, UUID targetId, ResourceBundle offered, ResourceBundle requested) throws GameException;
 
     void finishTurn() throws GameException;
 }
