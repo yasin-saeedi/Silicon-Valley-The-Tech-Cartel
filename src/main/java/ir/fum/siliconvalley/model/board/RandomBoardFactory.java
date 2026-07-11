@@ -11,8 +11,8 @@ import java.util.Random;
 /** Creates a randomized map while keeping resource classes reasonably balanced. */
 public final class RandomBoardFactory implements BoardFactory {
     private static final List<Integer> WEIGHTED_ACTIVATION_NUMBERS = List.of(
-            2, 3, 3, 4, 4, 5, 5, 6, 6,
-            8, 8, 9, 9, 10, 10, 11, 11, 12
+            2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
+            8, 8, 9, 9, 10, 10, 11, 11, 12, 12
     );
 
     private static final List<SectorType> PRODUCTIVE_TYPES = List.of(
