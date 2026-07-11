@@ -54,6 +54,7 @@ public final class BoardView extends VBox {
         boardCanvas.getStyleClass().add("board-canvas");
         sectorGrid.setHgap(0);
         sectorGrid.setVgap(0);
+        overlay.setPickOnBounds(false);
         boardCanvas.getChildren().addAll(sectorGrid, overlay);
         resizeBoardCanvas();
 

@@ -697,6 +697,11 @@ public final class MainView {
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(msg);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().addAll(root.getScene().getStylesheets());
+        dialogPane.getStyleClass().add("dark-dialog");
+
         alert.initOwner(root.getScene().getWindow());
         alert.showAndWait();
     }

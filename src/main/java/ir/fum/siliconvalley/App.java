@@ -3,6 +3,7 @@ package ir.fum.siliconvalley;
 import ir.fum.siliconvalley.controller.GameController;
 import ir.fum.siliconvalley.model.board.Board;
 import ir.fum.siliconvalley.model.board.RandomBoardFactory;
+import ir.fum.siliconvalley.model.enums.FounderRole;
 import ir.fum.siliconvalley.model.enums.PlayerColor;
 import ir.fum.siliconvalley.model.game.Game;
 import ir.fum.siliconvalley.model.game.StandardGameEngine;
@@ -41,7 +42,7 @@ public final class App extends Application {
     }
 
     private static GameController createDemoController() {
-        Board board = new RandomBoardFactory().create(GameConstants.DEFAULT_BOARD_SIZE, new Random(42));
+        Board board = new RandomBoardFactory().create(GameConstants.DEFAULT_BOARD_SIZE, new Random());
         Player first = new Player("Ada", PlayerColor.BLUE);
         Player second = new Player("Linus", PlayerColor.RED);
         try {
@@ -51,7 +52,7 @@ public final class App extends Application {
             e.printStackTrace();
         }
         Game game = new Game(board, new Market(), List.of(first, second));
-        StandardGameEngine engine = new StandardGameEngine(game, new Random(1));
+        StandardGameEngine engine = new StandardGameEngine(game, new Random());
         CommandManager commandManager = new CommandManager(engine, new GameSnapshotCodec());
         return new GameController(engine, commandManager, new JavaSerializationGameSaveService());
     }
