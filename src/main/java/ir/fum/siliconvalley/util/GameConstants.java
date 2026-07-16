@@ -21,6 +21,8 @@ public final class GameConstants {
     public static final double CELL_HEIGHT = 88;
     public static final double EDGE_THICKNESS = 5;
     public static final double VERTEX_RADIUS = 6;
+    public static final double WINDOW_WIDTH = 1120;
+    public static final double WINDOW_HEIGHT = 820;
 
     public static final ResourceBundle MVP_COST = ResourceBundle.builder()
             .add(ResourceType.CAPITAL, 1)

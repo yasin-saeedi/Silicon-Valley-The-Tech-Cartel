@@ -62,27 +62,27 @@
 }
 
 .sector-ai {
-    -fx-background-color: linear-gradient(to bottom, #2563eb, #1d4ed8);
+    -fx-background-color: linear-gradient(to right, #447df4, #0738bd);
 }
 
 .sector-fintech {
-    -fx-background-color: linear-gradient(to bottom, #dd9907, #ae7307);
+    -fx-background-color: linear-gradient(to right, #dda618, #9f6702);
 }
 
 .sector-cloud {
-    -fx-background-color: linear-gradient(to bottom, #9333ea, #7e22ce);
+    -fx-background-color: linear-gradient(to right, #9d54fa, #6503ba);
 }
 
 .sector-data {
-    -fx-background-color: linear-gradient(to bottom, #06b3f4, #0ca9e3);
+    -fx-background-color: linear-gradient(to right, #52c3e1, #007da6);
 }
 
 .sector-ip {
-    -fx-background-color: linear-gradient(to bottom, #16a34a, #15803d);
+    -fx-background-color: linear-gradient(to right, #1bc552, #01732a);
 }
 
 .sector-regulatory {
-    -fx-background-color: linear-gradient(to bottom, #475569, #334155);
+    -fx-background-color: linear-gradient(to right, #67707c, #28313c);
 }
 
 .sector-audited {
@@ -99,11 +99,6 @@
     -fx-fill: #0f172a;
     -fx-stroke: #334155;
     -fx-stroke-width: 0.5;
-}
-
-.board-edge-occupied {
-    -fx-stroke: #f8fafc;
-    -fx-stroke-width: 1.5;
 }
 
 .board-vertex {
@@ -166,4 +161,278 @@
 
 .dark-dialog .button {
     -fx-text-fill: black;
+}
+/*  Setup   */
+.setup-prompt {
+    -fx-text-fill: #f8fafc;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.setup-player-row {
+    -fx-background-color: #020617;
+    -fx-background-radius: 10px;
+    -fx-border-color: #1e293b;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 10px;
+    -fx-padding: 12 16 12 16;
+    -fx-pref-width: 480;
+}
+
+.setup-no-role {
+    -fx-text-fill: #64748b;
+    -fx-font-style: italic;
+}
+
+/* Inputs, scoped to the setup screen so they don't affect controls elsewhere */
+.setup-view .text-field {
+    -fx-background-color: #0f172a;
+    -fx-text-fill: #f8fafc;
+    -fx-prompt-text-fill: #64748b;
+    -fx-background-radius: 6px;
+    -fx-border-color: #334155;
+    -fx-border-radius: 6px;
+    -fx-padding: 6 10 6 10;
+}
+
+.setup-view .combo-box {
+    -fx-background-color: #0f172a;
+    -fx-background-radius: 6px;
+    -fx-border-color: #334155;
+    -fx-border-radius: 6px;
+    -fx-mark-color: #94a3b8;
+}
+
+.setup-view .combo-box .list-cell {
+    -fx-text-fill: #f8fafc;
+    -fx-background-color: transparent;
+}
+
+.setup-view .combo-box-popup .list-view {
+    -fx-background-color: #0f172a;
+    -fx-border-color: #334155;
+}
+
+.setup-view .combo-box-popup .list-cell {
+    -fx-text-fill: #f8fafc;
+    -fx-background-color: #0f172a;
+}
+
+.setup-view .combo-box-popup .list-cell:hover,
+.setup-view .combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: #f8fafc;
+}
+
+.setup-view .button {
+    -fx-background-color: linear-gradient(to bottom right, #1d4ed8, #0ea5e9);
+    -fx-text-fill: #f8fafc;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8 20 8 20;
+    -fx-cursor: hand;
+}
+
+.setup-view .button:hover {
+    -fx-background-color: linear-gradient(to bottom right, #2563eb, #38bdf8);
+}
+
+.audit-stamp {
+    -fx-text-fill: #ef4444;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+    -fx-padding: 3 10 3 10;
+    -fx-border-color: #ef4444;
+    -fx-border-width: 2.5;
+    -fx-border-radius: 4px;
+    -fx-background-color: rgba(15, 23, 42, 0.5);
+    -fx-background-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 3, 0.4, 0, 0);
+}
+
+.action-toggle {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: #cbd5e1;
+    -fx-font-size: 11px;
+    -fx-padding: 6;
+    -fx-border-color: transparent;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.action-toggle:selected {
+    -fx-background-color: rgba(59, 130, 246, 0.15);
+    -fx-text-fill: #f1f5f9;
+    -fx-border-color: #3b82f6;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+/* Sidebar section headers  */
+.section-header {
+    -fx-text-fill: #94a3b8;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+/*  Log console  */
+.log-console {
+    -fx-control-inner-background: #020617;
+    -fx-text-fill: #38bdf8;
+    -fx-font-family: monospace;
+    -fx-font-size: 10px;
+}
+.log-console .content {
+    -fx-effect: dropshadow(gaussian, rgb(214, 208, 208), 4, 0.3, 0, 0);
+}
+
+/* Player card */
+.player-card {
+    -fx-padding: 8;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-color: #0f172a;
+    -fx-border-color: #1e293b;
+}
+
+.player-card.active {
+    -fx-background-color: rgba(59, 130, 246, 0.15);
+    -fx-border-color: #3b82f6;
+}
+
+.player-color-dot {
+    -fx-background-radius: 5;
+    -fx-min-width: 10;
+    -fx-min-height: 10;
+    -fx-max-width: 10;
+    -fx-max-height: 10;
+}
+
+.player-name-label {
+    -fx-text-fill: #f1f5f9;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.vp-label {
+    -fx-text-fill: #fbbf24;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.resource-mini-label {
+    -fx-text-fill: #D8DFE8;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+}
+
+/*  Market panel rows */
+.market-row {
+    -fx-background-color: #0f172a;
+    -fx-background-radius: 4;
+    -fx-border-color: #1e293b;
+    -fx-border-width: 1;
+    -fx-padding: 4 6 4 6;
+}
+
+.market-item-name {
+    -fx-text-fill: #cbd5e1;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+
+.market-price-label {
+    -fx-text-fill: #fbbf24;
+    -fx-font-size: 11px;
+}
+
+.buy-button {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-padding: 3 8 3 8;
+    -fx-font-weight: bold;
+}
+
+.buy-button:hover {
+    -fx-background-color: #1d4ed8;
+}
+
+.buy-button:disabled {
+    -fx-opacity: 0.5;
+}
+
+/*  Sidebar container  */
+.dashboard-panel {
+    -fx-background-color: #0b0f19;
+    -fx-border-color: #1e293b;
+    -fx-border-width: 0 0 0 1;
+}
+
+/*  Header block  */
+.dashboard-title {
+    -fx-text-fill: #f8fafc;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.round-label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 12px;
+}
+
+.stage-label {
+    -fx-text-fill: #fbbf24;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+/*  Primary action buttons  */
+.action-button-primary {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8;
+}
+
+.action-button-primary:hover {
+    -fx-background-color: #1d4ed8;
+}
+
+.action-button-success {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8;
+}
+
+.action-button-success:hover {
+    -fx-background-color: #0ea371;
+}
+
+.action-button-trade {
+    -fx-background-color: #8b5cf6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8;
+}
+
+.action-button-trade:hover {
+    -fx-background-color: #7c3aed;
+}
+
+/* Utility buttons (undo/redo/save/load) */
+.utility-button {
+    -fx-background-color: #334155;
+    -fx-text-fill: #F5F9FF;
+    -fx-font-size: 14px;
+    -fx-padding: 6;
+}
+
+.utility-button:hover {
+    -fx-background-color: #475569;
 }

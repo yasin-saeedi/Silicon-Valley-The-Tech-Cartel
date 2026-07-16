@@ -11,6 +11,7 @@ import ir.fum.siliconvalley.model.board.Vertex;
 import ir.fum.siliconvalley.model.board.VertexPosition;
 import ir.fum.siliconvalley.model.enums.PlayerColor;
 import ir.fum.siliconvalley.model.enums.SectorType;
+import ir.fum.siliconvalley.model.enums.StructureType;
 import ir.fum.siliconvalley.model.game.Game;
 import ir.fum.siliconvalley.model.player.Player;
 import ir.fum.siliconvalley.model.structure.CompanyStructure;
@@ -22,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.image.ImageView;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -87,7 +89,7 @@ public final class BoardView extends VBox {
         }
     }
 
-    private VBox createSectorTile(Sector sector) {
+    private Pane createSectorTile(Sector sector) {
         SectorType type = sector.getType();
         int row = sector.getPosition().row();
 
@@ -101,9 +103,11 @@ public final class BoardView extends VBox {
 
         Pane icon = SectorDisplay.icon(type);
 
-        VBox tile = new VBox(2, nameLabel, numberLabel, icon);
-        tile.getStyleClass().addAll("sector-tile", SectorDisplay.styleClass(type));
-        tile.setAlignment(Pos.CENTER);
+        VBox content = new VBox(2, nameLabel, numberLabel, icon);
+        content.getStyleClass().addAll("sector-tile", SectorDisplay.styleClass(type));
+        content.setAlignment(Pos.CENTER);
+
+        StackPane tile = new StackPane(content);
         tile.setPrefSize(GameConstants.CELL_WIDTH, GameConstants.CELL_HEIGHT);
         tile.setMinSize(GameConstants.CELL_WIDTH, GameConstants.CELL_HEIGHT);
         tile.setMaxSize(GameConstants.CELL_WIDTH, GameConstants.CELL_HEIGHT);
@@ -116,13 +120,22 @@ public final class BoardView extends VBox {
 
         // Audited Sector
         if (sector.isAudited()) {
-            tile.getStyleClass().add("sector-audited");
+            content.getStyleClass().add("sector-audited");
+            tile.getChildren().add(createAuditStamp());
         }
         controller.getGame().getBoard().getAuditorPosition()
                 .filter(position -> position.equals(sector.getPosition()))
-                .ifPresent(ignored -> tile.getStyleClass().add("sector-auditor-here"));
+                .ifPresent(ignored -> content.getStyleClass().add("sector-auditor-here"));
 
         return tile;
+    }
+
+    private Label createAuditStamp() {
+        Label stamp = new Label("AUDITED");
+        stamp.getStyleClass().add("audit-stamp");
+        stamp.setRotate(-18);
+        stamp.setMouseTransparent(true); // purely decorative; clicks still reach the tile
+        return stamp;
     }
 
     private Rectangle createEdgeNode(Edge edge) {
@@ -160,7 +173,7 @@ public final class BoardView extends VBox {
 
         resolveStructureOwner(edge.getPartnershipId()).ifPresent(player -> {
             node.getStyleClass().add("board-edge-occupied");
-            node.setFill(toFxColor(player.getColor()));
+            node.setStyle("-fx-fill: " + toCssColor(player.getColor()) + ";");
         });
 
         node.setOnMouseClicked(e -> {
@@ -173,17 +186,43 @@ public final class BoardView extends VBox {
         return node;
     }
 
-    private Circle createVertexNode(Vertex vertex) {
+    private StackPane createVertexNode(Vertex vertex) {
         VertexPosition position = vertex.getPosition();
-        Circle node = new Circle(GameConstants.VERTEX_RADIUS);
-        node.getStyleClass().add("board-vertex");
-        node.setLayoutX(position.column() * GameConstants.CELL_WIDTH);
-        node.setLayoutY(position.row() * GameConstants.CELL_HEIGHT);
+        double radius = GameConstants.VERTEX_RADIUS;
+        double centerX = position.column() * GameConstants.CELL_WIDTH;
+        double centerY = position.row() * GameConstants.CELL_HEIGHT;
 
-        resolveStructureOwner(vertex.getCompanyStructureId()).ifPresent(player -> {
-            node.getStyleClass().add("board-vertex-occupied");
-            node.setFill(toFxColor(player.getColor()));
-        });
+        // Fixed box, sized for the bigger structure artwork.
+        double boxSize = radius * 6.4;
+
+        Circle base = new Circle(radius);
+        base.getStyleClass().add("board-vertex");
+
+        StackPane node = new StackPane(base);
+        node.setPrefSize(boxSize, boxSize);
+        node.setMinSize(boxSize, boxSize);
+        node.setMaxSize(boxSize, boxSize);
+        node.setLayoutX(centerX - boxSize / 2.0);
+        node.setLayoutY(centerY - boxSize / 2.0);
+
+        vertex.getCompanyStructureId()
+                .flatMap(id -> controller.getGame().findStructure(id))
+                .ifPresent(structure -> controller.getGame().findPlayer(structure.getOwnerId())
+                        .ifPresent(player -> {
+                            base.getStyleClass().add("board-vertex-occupied");
+                            base.setStyle("-fx-fill: " + toCssColor(player.getColor()) + ";");
+
+                            StructureType type = structure.getStructureType();
+                            if (type == StructureType.MVP || type == StructureType.UNICORN) {
+                                double iconSize = iconSizeFor(type, boxSize);
+                                ImageView icon = new ImageView(StructureDisplay.icon(type, player.getColor()));
+                                icon.setFitWidth(iconSize);
+                                icon.setFitHeight(iconSize);
+                                icon.setPreserveRatio(true);
+                                icon.setMouseTransparent(true);
+                                node.getChildren().add(icon);
+                            }
+                        }));
 
         // build company by click
         node.setOnMouseClicked(e -> {
@@ -191,9 +230,18 @@ public final class BoardView extends VBox {
                 mainView.handleVertexClick(vertex.getPosition());
             }
         });
-
         node.setCursor(javafx.scene.Cursor.HAND);
+
         return node;
+    }
+
+    // MVP and Unicorn render at different scales
+    private static double iconSizeFor(StructureType type, double boxSize) {
+        return switch (type) {
+            case MVP -> boxSize * 1.4;
+            case UNICORN -> boxSize;
+            case PARTNERSHIP -> throw new IllegalArgumentException("No artwork for PARTNERSHIP");
+        };
     }
 
     private Optional<Player> resolveStructureOwner(Optional<UUID> structureId) {
@@ -255,7 +303,7 @@ public final class BoardView extends VBox {
         };
         for (int index = 0; index < types.length; index++) {
             SectorType type = types[index];
-            
+
             StackPane swatch = new StackPane();
             swatch.getChildren().add(SectorDisplay.icon(type));
             swatch.getStyleClass().addAll("legend-swatch", SectorDisplay.styleClass(type));
@@ -271,12 +319,12 @@ public final class BoardView extends VBox {
         return legend;
     }
 
-    private static javafx.scene.paint.Color toFxColor(PlayerColor color) {
+    private static String toCssColor(PlayerColor color) {
         return switch (color) {
-            case BLUE -> javafx.scene.paint.Color.web("#38bdf8");
-            case RED -> javafx.scene.paint.Color.web("#f87171");
-            case GREEN -> javafx.scene.paint.Color.web("#4ade80");
-            case YELLOW -> javafx.scene.paint.Color.web("#facc15");
+            case BLUE -> "#38bdf8";
+            case RED -> "#FF4040";
+            case GREEN -> "#63F043";
+            case YELLOW -> "#facc15";
         };
     }
 }
