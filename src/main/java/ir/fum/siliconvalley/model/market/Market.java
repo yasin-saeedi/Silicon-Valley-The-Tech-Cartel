@@ -26,6 +26,8 @@ public final class Market implements Serializable {
 
     public Market() {
         for (ResourceType type : ResourceType.values()) {
+            if (type.equals(ResourceType.CAPITAL))
+                continue;
             prices.put(type, GameConstants.BASE_MARKET_PRICE);
             inactiveRounds.put(type, 0);
         }
@@ -57,6 +59,8 @@ public final class Market implements Serializable {
     /** Apply price decay once after every player has completed a turn. */
     public void closeFullRound() {
         for (ResourceType type : ResourceType.values()) {
+            if (type.equals(ResourceType.CAPITAL))
+                continue;
             if (purchasedThisRound.contains(type)) {
                 inactiveRounds.put(type, 0);
                 continue;

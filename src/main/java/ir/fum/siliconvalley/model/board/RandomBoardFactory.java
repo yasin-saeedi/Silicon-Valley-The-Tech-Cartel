@@ -65,6 +65,30 @@ public final class RandomBoardFactory implements BoardFactory {
         return types;
     }
 
+    private List<SectorType> createCustomizedTypes(int productiveCount, int regulatoryCount) {
+        List<SectorType> types = new ArrayList<>(productiveCount + regulatoryCount);
+        int addedCount = 0;
+        for (; addedCount < productiveCount * 0.15; addedCount++) {
+            types.add(PRODUCTIVE_TYPES.get(3)); // TALENT
+        }
+        for (; addedCount < productiveCount * 0.3; addedCount++) {
+            types.add(PRODUCTIVE_TYPES.get(4)); // PATENT
+        }
+        for (; addedCount < productiveCount * 0.5; addedCount++) {
+            types.add(PRODUCTIVE_TYPES.get(2)); // CLOUD
+        }
+        for (; addedCount < productiveCount * 0.7; addedCount++) {
+            types.add(PRODUCTIVE_TYPES.get(1)); // PATENT
+        }
+        for (; addedCount < productiveCount ; addedCount++) {
+            types.add(PRODUCTIVE_TYPES.get(0)); // PATENT
+        }
+        for (int index = 0; index < regulatoryCount; index++) {
+            types.add(SectorType.REGULATORY_ZONE);
+        }
+        return types;
+    }
+
     private List<Integer> createActivationNumbers(int count, Random random) {
         List<Integer> numbers = new ArrayList<>(count);
         int cursor = 0;
