@@ -85,9 +85,9 @@ public final class StandardGameEngine implements GameEngine {
                 game.setTurnStage(TurnStage.AUDITOR_MOVE);
             }
         } else {
+            produceResources(total);
             game.setTurnStage(TurnStage.ACTIONS);
         }
-        produceResources(total);
         return total;
     }
 
@@ -351,6 +351,13 @@ public final class StandardGameEngine implements GameEngine {
 
         Board board = game.getBoard();
 
+        // Validate auditor target location: must be different from last auditor position
+        if (board.getAuditorPosition().isPresent()) {
+            SectorPosition currentAuditorPosition = board.getAuditorPosition().get();
+            if (sectorPosition.equals(currentAuditorPosition)) {
+                throw new InvalidPlacementException("Can not place the Auditor at the same sector");
+            }
+        }
         // Validate auditor target location: must be adjacent to at least one company structure if possible
         boolean anySectorHasCompany = false;
         for (Sector sector : board.getSectors()) {

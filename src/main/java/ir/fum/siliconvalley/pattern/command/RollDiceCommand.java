@@ -9,10 +9,7 @@ public final class RollDiceCommand implements GameCommand {
 
     @Override
     public String description() {
-        if (number > 0)
-            return "Two dice rolled: " + this.number ;
-        else
-            return "Roll Two dice..." ;
+        return number == 0 ? "Roll Two dice..." : "Two dice rolled: " + this.number ;
     }
 
     @Override

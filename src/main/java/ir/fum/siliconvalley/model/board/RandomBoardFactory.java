@@ -10,17 +10,18 @@ import java.util.Random;
 
 /** Creates a randomized map while keeping resource classes reasonably balanced. */
 public final class RandomBoardFactory implements BoardFactory {
-    private static final List<Integer> WEIGHTED_ACTIVATION_NUMBERS = List.of(
-            2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
-            8, 8, 9, 9, 10, 10, 11, 11, 12, 12
-    );
+    private static final List<Integer> WEIGHTED_ACTIVATION_NUMBERS =
+            new ArrayList<>(List.of(
+                    2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
+                    8, 8, 9, 9, 10, 10, 11, 11, 12, 12
+            ));
 
     private static final List<SectorType> PRODUCTIVE_TYPES = List.of(
-            SectorType.AI_HUB,
             SectorType.FINTECH_DISTRICT,
+            SectorType.DATA_VALLEY,
             SectorType.CLOUD_CAMPUS,
-            SectorType.IP_QUARTER,
-            SectorType.DATA_VALLEY
+            SectorType.AI_HUB,
+            SectorType.IP_QUARTER
     );
 
     @Override
@@ -31,7 +32,7 @@ public final class RandomBoardFactory implements BoardFactory {
         }
 
         int cellCount = boardSize * boardSize;
-        int regulatoryCount = Math.max(1, Math.round(cellCount * 0.20f));
+        int regulatoryCount = Math.max(1, Math.round(cellCount * 0.12f));
         int productiveCount = cellCount - regulatoryCount;
 
         List<SectorType> types = createBalancedTypes(productiveCount, regulatoryCount);
@@ -67,6 +68,7 @@ public final class RandomBoardFactory implements BoardFactory {
     private List<Integer> createActivationNumbers(int count, Random random) {
         List<Integer> numbers = new ArrayList<>(count);
         int cursor = 0;
+        Collections.shuffle(WEIGHTED_ACTIVATION_NUMBERS, random);
         while (numbers.size() < count) {
             numbers.add(WEIGHTED_ACTIVATION_NUMBERS.get(cursor % WEIGHTED_ACTIVATION_NUMBERS.size()));
             cursor++;
