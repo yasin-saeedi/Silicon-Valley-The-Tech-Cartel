@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -83,30 +84,29 @@ public final class MainView {
         sidebar.setPadding(new Insets(16));
         sidebar.setPrefWidth(340);
         sidebar.getStyleClass().add("dashboard-panel");
-        sidebar.setStyle("-fx-background-color: #0b0f19; -fx-border-color: #1e293b; -fx-border-width: 0 0 0 1;");
 
         // Game Status Header
         VBox header = new VBox(4);
         header.setAlignment(Pos.CENTER_LEFT);
         Label title = new Label("Control Dashboard");
-        title.setStyle("-fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-font-size: 16px;");
-        roundLabel.setStyle("-fx-text-fill: #94a3b8; -fx-font-size: 12px;");
-        stageLabel.setStyle("-fx-text-fill: #fbbf24; -fx-font-weight: bold; -fx-font-size: 13px;");
+        title.getStyleClass().add("dashboard-title");
+        roundLabel.getStyleClass().add("round-label");
+        stageLabel.getStyleClass().add("stage-label");
         header.getChildren().addAll(title, roundLabel, stageLabel);
 
         // Player section
         Label playersHeader = new Label("Players Inventory");
-        playersHeader.setStyle("-fx-text-fill: #94a3b8; -fx-font-weight: bold; -fx-font-size: 12px;");
+        playersHeader.getStyleClass().add("section-header");
         VBox playerSection = new VBox(6, playersHeader, playerListContainer);
 
         // Core Actions Section
         VBox actionsBox = new VBox(8);
         rollDiceBtn.setMaxWidth(Double.MAX_VALUE);
-        rollDiceBtn.setStyle("-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8;");
+        rollDiceBtn.getStyleClass().add("action-button-primary");
         rollDiceBtn.setOnAction(e -> executeCommand(new RollDiceCommand()));
 
         endTurnBtn.setMaxWidth(Double.MAX_VALUE);
-        endTurnBtn.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8;");
+        endTurnBtn.getStyleClass().add("action-button-success");
         endTurnBtn.setOnAction(e -> executeCommand(new EndTurnCommand()));
 
         HBox togglesBox = new HBox(6);
@@ -114,10 +114,9 @@ public final class MainView {
         buildPartnershipToggle.setToggleGroup(actionToggles);
         upgradeUnicornToggle.setToggleGroup(actionToggles);
 
-        String toggleStyle = "-fx-background-color: #1e293b; -fx-text-fill: #cbd5e1; -fx-font-size: 11px; -fx-padding: 6;";
-        buildMvpToggle.setStyle(toggleStyle);
-        buildPartnershipToggle.setStyle(toggleStyle);
-        upgradeUnicornToggle.setStyle(toggleStyle);
+        buildMvpToggle.getStyleClass().add("action-toggle");
+        buildPartnershipToggle.getStyleClass().add("action-toggle");
+        upgradeUnicornToggle.getStyleClass().add("action-toggle");
         
         buildMvpToggle.setMaxWidth(Double.MAX_VALUE);
         buildPartnershipToggle.setMaxWidth(Double.MAX_VALUE);
@@ -129,7 +128,7 @@ public final class MainView {
         togglesBox.getChildren().addAll(buildMvpToggle, buildPartnershipToggle, upgradeUnicornToggle);
 
         tradeBtn.setMaxWidth(Double.MAX_VALUE);
-        tradeBtn.setStyle("-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8;");
+        tradeBtn.getStyleClass().add("action-button-trade");
         tradeBtn.setOnAction(e -> showTradeDialog());
 
         actionsBox.getChildren().addAll(rollDiceBtn, togglesBox, tradeBtn, endTurnBtn);
@@ -141,11 +140,10 @@ public final class MainView {
         Button saveBtn = new Button("Save");
         Button loadBtn = new Button("Load");
 
-        String utilStyle = "-fx-background-color: #334155; -fx-text-fill: #cbd5e1; -fx-font-size: 11px; -fx-padding: 6;";
-        undoBtn.setStyle(utilStyle);
-        redoBtn.setStyle(utilStyle);
-        saveBtn.setStyle(utilStyle);
-        loadBtn.setStyle(utilStyle);
+        undoBtn.getStyleClass().add("utility-button");
+        redoBtn.getStyleClass().add("utility-button");
+        saveBtn.getStyleClass().add("utility-button");
+        loadBtn.getStyleClass().add("utility-button");
         
         undoBtn.setMaxWidth(Double.MAX_VALUE);
         redoBtn.setMaxWidth(Double.MAX_VALUE);
@@ -165,14 +163,14 @@ public final class MainView {
 
         // Market Container
         Label marketHeader = new Label("Dynamic Tech Market");
-        marketHeader.setStyle("-fx-text-fill: #94a3b8; -fx-font-weight: bold; -fx-font-size: 12px;");
+        marketHeader.getStyleClass().add("section-header");
         VBox marketSection = new VBox(6, marketHeader, marketContainer);
 
         // Log Console
         logArea.setEditable(false);
         logArea.setPrefHeight(100);
         logArea.setWrapText(true);
-        logArea.setStyle("-fx-control-inner-background: #020617; -fx-text-fill: #38bdf8; -fx-font-family: monospace; -fx-font-size: 10px;");
+        logArea.getStyleClass().add("log-console");
 
         sidebar.getChildren().addAll(header, playerSection, actionsBox, utilityBox, marketSection, logArea);
         return sidebar;
@@ -215,10 +213,10 @@ public final class MainView {
             dot.setStyle("-fx-background-color: " + toHexColor(p.getColor()) + "; -fx-background-radius: 5;");
             
             Label nameLbl = new Label(p.getName() + (p.getFounderRole().map(r -> " (" + r.name() + ")").orElse("")));
-            nameLbl.setStyle("-fx-text-fill: #f1f5f9; -fx-font-weight: bold; -fx-font-size: 12px;");
+            nameLbl.getStyleClass().add("player-name-label");
             
             Label vpLbl = new Label("VP: " + totalVp + " (" + baseVp + " base" + (isLongestOwner ? " + 2 network" : "") + ")");
-            vpLbl.setStyle("-fx-text-fill: #fbbf24; -fx-font-weight: bold; -fx-font-size: 11px;");
+            vpLbl.getStyleClass().add("vp-label");
             
             Region spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -230,7 +228,7 @@ public final class MainView {
             resourcesRow.setAlignment(Pos.CENTER_LEFT);
             for (ResourceType resType : ResourceType.values()) {
                 Label rLbl = new Label(resType.name().substring(0, 3) + ":" + p.getResourceCount(resType));
-                rLbl.setStyle("-fx-text-fill: #94a3b8; -fx-font-size: 10px;");
+                rLbl.getStyleClass().add("resource-mini-label");
                 resourcesRow.getChildren().add(rLbl);
             }
 
@@ -257,25 +255,27 @@ public final class MainView {
         marketContainer.getChildren().clear();
         Market market = game.getMarket();
         for (ResourceType type : ResourceType.values()) {
+            if (type.equals(ResourceType.CAPITAL))
+                continue;
             HBox mRow = new HBox(8);
             mRow.setAlignment(Pos.CENTER_LEFT);
             mRow.setPadding(new Insets(4, 6, 4, 6));
-            mRow.setStyle("-fx-background-color: #0f172a; -fx-background-radius: 4; -fx-border-color: #1e293b; -fx-border-width: 1;");
+            mRow.getStyleClass().add("market-row");
 
             Label nameLabel = new Label(type.name());
-            nameLabel.setStyle("-fx-text-fill: #cbd5e1; -fx-font-weight: bold; -fx-font-size: 11px;");
+            nameLabel.getStyleClass().add("market-item-name");
             nameLabel.setPrefWidth(70);
 
             int effectivePrice = market.getEffectivePrice(type, activePlayer.getFounderRole());
             Label priceLabel = new Label("Price: " + effectivePrice + " Cap");
-            priceLabel.setStyle("-fx-text-fill: #fbbf24; -fx-font-size: 11px;");
+            priceLabel.getStyleClass().add("market-price-label");
             priceLabel.setPrefWidth(90);
 
             Region spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);
 
             Button buyBtn = new Button("Buy");
-            buyBtn.setStyle("-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-size: 10px; -fx-padding: 3 8 3 8; -fx-font-weight: bold;");
+            buyBtn.getStyleClass().add("buy-button");
             buyBtn.setDisable(!actionsAllowed || activePlayer.getResourceCount(ResourceType.CAPITAL) < effectivePrice);
             buyBtn.setOnAction(e -> executeCommand(new BuyFromMarketCommand(activePlayer.getId(), type)));
 
@@ -286,10 +286,8 @@ public final class MainView {
         // 5. Trigger Tax Discard Dialog if active
         if (game.getPhase() == GamePhase.MAIN_TURN && stage == TurnStage.TAX_DISCARD) {
             for (Player player : game.getPlayers()) {
-                int limit = player.getTaxHandLimit();
-                int totalCards = player.getTotalResourceCards();
-                if (totalCards > limit) {
-                    int required = totalCards / 2;
+                if (game.getPlayersPendingDiscard().contains(player.getId())) {
+                    int required = player.getTotalResourceCards() / 2;
                     showTaxDiscardDialog(player, required);
                     break;
                 }
@@ -391,6 +389,7 @@ public final class MainView {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(root.getScene().getWindow());
         dialog.setTitle("Tax Discard - " + player.getName());
+        applyGameIcon(dialog);
 
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(16));
@@ -485,16 +484,18 @@ public final class MainView {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(root.getScene().getWindow());
         dialog.setTitle("Player-to-Player Trade - " + activePlayer.getName());
+        applyGameIcon(dialog);
 
         VBox vbox = new VBox(12);
         vbox.setPadding(new Insets(16));
+        vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setStyle("-fx-background-color: #0b0f19; -fx-border-color: #1e293b; -fx-border-width: 1;");
 
         Label info = new Label("Propose a trade from " + activePlayer.getName() + " to an opponent:");
         info.setStyle("-fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-font-size: 13px;");
 
         HBox targetBox = new HBox(8);
-        targetBox.setAlignment(Pos.CENTER_LEFT);
+        targetBox.setAlignment(Pos.CENTER);
         Label targetLbl = new Label("Target Player:");
         targetLbl.setStyle("-fx-text-fill: #cbd5e1; -fx-font-size: 12px;");
         ComboBox<Player> targetCombo = new ComboBox<>();
@@ -617,6 +618,13 @@ public final class MainView {
             confirm.setHeaderText(target.getName() + ", do you accept this trade from " + activePlayer.getName() + "?");
             confirm.setContentText("Offered to you: " + offered + "\nRequested from you: " + requested);
             confirm.initOwner(dialog);
+            applyGameIcon((Stage)confirm.getDialogPane().getScene().getWindow());
+
+            DialogPane pane = confirm.getDialogPane();
+            pane.setPrefSize(460, 180);
+            pane.setMinSize(460, 180);
+            pane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/app.css")).toExternalForm());
+            pane.getStyleClass().add("dark-dialog");
 
             confirm.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
@@ -632,8 +640,9 @@ public final class MainView {
         });
 
         vbox.getChildren().addAll(info, targetBox, grid, proposeBtn);
-        Scene scene = new Scene(vbox);
+        Scene scene = new Scene(vbox , 360  , 360);
         dialog.setScene(scene);
+        dialog.setMinWidth(360);
         dialog.show();
     }
 
@@ -663,6 +672,7 @@ public final class MainView {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(root.getScene().getWindow());
         dialog.setTitle("Victory!");
+        applyGameIcon(dialog);
 
         VBox vbox = new VBox(14);
         vbox.setAlignment(Pos.CENTER);
@@ -697,6 +707,11 @@ public final class MainView {
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(msg);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().addAll(root.getScene().getStylesheets());
+        dialogPane.getStyleClass().add("dark-dialog");
+
         alert.initOwner(root.getScene().getWindow());
         alert.showAndWait();
     }
@@ -709,4 +724,10 @@ public final class MainView {
             case YELLOW -> "#facc15";
         };
     }
+
+    private void applyGameIcon(Stage stage) {
+        stage.getIcons().add(new Image(Objects.requireNonNull(
+                getClass().getResourceAsStream("/GameIcon.png"))));
+    }
+
 }

@@ -158,7 +158,7 @@ public final class StandardGameEngine implements GameEngine {
         }
 
         // Distance of two rule
-        if (!board.isDistanceOfTwoValid(vertex)) {
+        if (!isDistanceOfTwoValid(vertex , playerId)) {
             throw new InvalidPlacementException("Distance-of-two rule violated at vertex: " + vertex);
         }
 
@@ -227,7 +227,7 @@ public final class StandardGameEngine implements GameEngine {
         }
 
         // 2. Validation: Distance of two rule
-        if (!board.isDistanceOfTwoValid(vertex)) {
+        if (!isDistanceOfTwoValid(vertex , playerId)) {
             throw new InvalidPlacementException("Distance-of-two rule violated at vertex: " + vertex);
         }
 
@@ -351,6 +351,13 @@ public final class StandardGameEngine implements GameEngine {
 
         Board board = game.getBoard();
 
+        // Validate auditor target location: must be different from last auditor position
+        if (board.getAuditorPosition().isPresent()) {
+            SectorPosition currentAuditorPosition = board.getAuditorPosition().get();
+            if (sectorPosition.equals(currentAuditorPosition)) {
+                throw new InvalidPlacementException("Can not place the Auditor at the same sector");
+            }
+        }
         // Validate auditor target location: must be adjacent to at least one company structure if possible
         boolean anySectorHasCompany = false;
         for (Sector sector : board.getSectors()) {
@@ -573,5 +580,30 @@ public final class StandardGameEngine implements GameEngine {
                     "Expected stage " + expected + " but game is " + game.getPhase() + "/" + game.getTurnStage()
             );
         }
+    }
+
+    private boolean isDistanceOfTwoValid(VertexPosition position , UUID playerId){
+        Board board = game.getBoard();
+        List<Player> players = game.getPlayers();
+        Vertex target = board.getVertex(position);
+        if (target.getCompanyStructureId().isPresent()) {
+            return false;
+        }
+        for (Vertex adj : board.getAdjacentVerticesToVertex(position)) {
+            if (adj.getCompanyStructureId().isPresent()) {
+                UUID structureId = adj.getCompanyStructureId().get();
+                for (Player player : players) {
+                    List<CompanyStructure> companyStructures = player.getStructures();
+                    for (CompanyStructure companyStructure : companyStructures) {
+                        if (companyStructure.getId().equals(structureId)){
+                            if( !player.getId().equals(playerId) ){
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
